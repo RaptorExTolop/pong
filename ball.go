@@ -34,8 +34,8 @@ func (b *ball) checkCollisionWall() {
 		b.dirX *= -1
 	}
 	if b.X <= 0+b.radius {
-		score = 0
-		running = false
+		//score = 0
+		//running = false
 	}
 	if b.Y >= screenHeight-b.radius || b.Y <= 0+b.radius {
 		b.dirY *= -1
@@ -43,14 +43,19 @@ func (b *ball) checkCollisionWall() {
 }
 
 func (b *ball) checkCollisionPaddle(p *paddle) {
-	if p.X <= b.X && p.X+p.width >= b.X && p.Y >= b.Y && p.Y+p.height <= b.Y {
+	if p.X <= b.X && p.X+p.width >= b.X+(b.radius*2) {
+		//b.dirX *= -1
+		fmt.Println("x collision")
+	}
+	if p.Y >= b.Y && p.Y+p.height <= b.Y+(b.radius*2) {
+		fmt.Println("y collision")
+		b.dirY *= -1
+	}
+	if p.X <= b.X && p.X+p.width >= b.X+(b.radius*2) && p.Y >= b.Y && p.Y+p.height <= b.Y+(b.radius*2) {
 		fmt.Println("collision")
 		score++
-		if p.X <= b.X && p.X+p.width >= b.X {
+		/*if p.X <= b.X && p.X+p.width >= b.X {
 			b.dirX *= -1
-		}
-		if p.Y >= b.Y && p.Y+p.height <= b.Y {
-			b.dirY *= -1
-		}
+		}*/
 	}
 }
