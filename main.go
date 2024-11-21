@@ -35,6 +35,7 @@ func update() {
 	running = !rl.WindowShouldClose()
 	playingBall.update()
 	paddleOne.update()
+	playingBall.checkCollisionPaddle(&paddleOne)
 }
 
 func draw() {

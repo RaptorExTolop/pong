@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -22,17 +24,33 @@ func (b *ball) draw() {
 }
 
 func (b *ball) update() {
-	b.checkCollisions()
+	b.checkCollisionWall()
 	b.X += b.speed * b.dirX
 	b.Y += b.speed / 3 * b.dirY
 }
 
-func (b *ball) checkCollisions() {
-	if b.X >= screenwidth-b.radius || b.X <= 0+b.radius {
+func (b *ball) checkCollisionWall() {
+	if b.X >= screenwidth-b.radius {
 		b.dirX *= -1
-		score++
+	}
+	if b.X <= 0+b.radius {
+		score = 0
+		running = false
 	}
 	if b.Y >= screenHeight-b.radius || b.Y <= 0+b.radius {
 		b.dirY *= -1
+	}
+}
+
+func (b *ball) checkCollisionPaddle(p *paddle) {
+	if p.X <= b.X && p.X+p.width >= b.X && p.Y >= b.Y && p.Y+p.height <= b.Y {
+		fmt.Println("collision")
+		score++
+		if p.X <= b.X && p.X+p.width >= b.X {
+			b.dirX *= -1
+		}
+		if p.Y >= b.Y && p.Y+p.height <= b.Y {
+			b.dirY *= -1
+		}
 	}
 }
